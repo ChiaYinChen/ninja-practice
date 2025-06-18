@@ -111,6 +111,9 @@ TIME_ZONE = "Asia/Taipei"
 USE_I18N = True
 
 USE_TZ = True
+DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_FORMAT = "%Y-%m-%d"
+TIME_FORMAT = "%H:%M:%S"
 
 
 # Static files (CSS, JavaScript, Images)
