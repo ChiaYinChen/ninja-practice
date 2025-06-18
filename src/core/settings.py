@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 
 from .config import settings
+from .logging import LogLevel
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ SECRET_KEY = settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = settings.DEBUG
+LOG_LEVEL = str(LogLevel.DEBUG) if DEBUG else str(settings.LOG_LEVEL)
 
 ALLOWED_HOSTS = []
 
@@ -130,3 +132,62 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom auth_user model
 AUTH_USER_MODEL = "account.User"
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "colored": {
+            "()": "colorlog.ColoredFormatter",
+            "format": (
+                "%(log_color)s%(levelname)-5s%(reset)s "
+                "%(yellow)s[%(asctime)s]%(reset)s"
+                "%(white)s %(name)s %(funcName)s "
+                "%(bold_purple)s:%(lineno)d%(reset)s "
+                "%(log_color)s%(message)s%(reset)s"
+            ),
+            "datefmt": "%y-%m-%d %H:%M:%S",
+            "log_colors": {
+                "DEBUG": "blue",
+                "INFO": "bold_cyan",
+                "WARNING": "red",
+                "ERROR": "bg_bold_red",
+                "CRITICAL": "red,bg_white",
+            },
+        },
+        "simple": {
+            "format": ("%(levelname)-5s [%(asctime)s] %(name)s %(funcName)s :%(lineno)d %(message)s"),
+            "datefmt": "%y-%m-%d %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "default": {
+            "level": LOG_LEVEL,
+            "class": "logging.StreamHandler",
+            "formatter": "colored" if DEBUG else "simple",
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["default"],
+            "level": LOG_LEVEL,
+            "propagate": True,
+        },
+        "uvicorn.error": {
+            "handlers": ["default"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+        "uvicorn.access": {
+            "handlers": ["default"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+        "django": {
+            "handlers": ["default"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
+    },
+}

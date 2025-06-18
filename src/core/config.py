@@ -1,10 +1,13 @@
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from .logging import LogLevel
+
 
 class AppSettings(BaseSettings):
     SECRET_KEY: str = Field(..., description="Django secret key")
     DEBUG: bool = False
+    LOG_LEVEL: str = LogLevel.INFO
 
     model_config = SettingsConfigDict(
         env_file=".env",
