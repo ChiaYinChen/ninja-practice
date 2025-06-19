@@ -5,6 +5,9 @@ from django.conf import settings
 from ninja import Field, Schema
 from pydantic import field_validator, model_validator
 
+from core import exceptions as exc
+from core.errcode import CustomErrorCode
+
 
 class CreateUserRequest(Schema):
     email: str = Field(examples=["user@example.com"])
@@ -15,13 +18,15 @@ class CreateUserRequest(Schema):
     @classmethod
     def validate_password_contains_number(cls, v: str) -> str:
         if not re.search(r"\d", v):
-            raise ValueError("Password must contain at least one numeric character")
+            raise exc.BadRequestError(
+                CustomErrorCode.VALIDATE_ERROR, "Password must contain at least one numeric character"
+            )
         return v
 
     @model_validator(mode="after")
     def check_passwords_match(self) -> Self:
         if self.password != self.confirm_password:
-            raise ValueError("Passwords do not match")
+            raise exc.BadRequestError(CustomErrorCode.CONFIRM_PASSWORD_MISMATCH, "Passwords do not match")
         return self
 
 
