@@ -1,6 +1,7 @@
 from django.http import HttpRequest
-from ninja import Router
+from ninja import Query, Router
 
+from core.paginations import PaginationParams, get_paginated_response
 from core.responses import GenericResponse
 
 from .models import User
@@ -14,9 +15,10 @@ router = Router()
     response=GenericResponse[list[UserOut]],
     summary="取得使用者清單",
 )
-def get_users(request: HttpRequest):
-    users = User.objects.all()
-    return GenericResponse(data=users)
+def get_users(request: HttpRequest, paging: Query[PaginationParams]):
+    user_objs = User.objects.all()
+    page_info, users = get_paginated_response(user_objs, paging_params=paging)
+    return GenericResponse(data=users, paging=page_info)
 
 
 @router.post(
