@@ -1,0 +1,48 @@
+- model: account.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$1000000$N5XU8yQ5nDOgwgmMOKLvWp$o4T2srA37gYERQ1v7PfUDUKXDGPd8iizG39ZlZfKAgg=
+    last_login: null
+    email: test1@test.com
+    created_at: 2025-06-19 03:16:31.969799+00:00
+    updated_at: 2025-06-19 03:16:31.969834+00:00
+- model: account.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$1000000$AR6Xm6cBqPtkmCZsMln4j8$MOEc9Xtw9mbHCcdJxDOZ9yH/ixFbcXAv6bnmE7TKUzE=
+    last_login: null
+    email: test2@test.com
+    created_at: 2025-06-19 03:47:33.372050+00:00
+    updated_at: 2025-06-19 03:47:33.372083+00:00
+- model: account.user
+  pk: 3
+  fields:
+    password: pbkdf2_sha256$1000000$joWlaC5CWwA2RYNkm10xLj$OHcP9ql9jIu3pnM1FoThdDK5z4k03+qD97cU6C+18/M=
+    last_login: null
+    email: test3@test.com
+    created_at: 2025-06-19 03:47:43.885744+00:00
+    updated_at: 2025-06-19 03:47:43.885770+00:00
+- model: account.user
+  pk: 4
+  fields:
+    password: pbkdf2_sha256$1000000$A1jGLQ4FdPljuc4tUtzaGu$G4nyq58epy9gWT8ZCOaV7vb7ALUAE4DJnXMroP1AVeY=
+    last_login: null
+    email: test4@test.com
+    created_at: 2025-06-19 03:47:53.417562+00:00
+    updated_at: 2025-06-19 03:47:53.417587+00:00
+- model: account.user
+  pk: 5
+  fields:
+    password: pbkdf2_sha256$1000000$cbQY9Y2fzMl0suOJ7b6VnY$fv9+WThv+nn8DLK+0b5WKsGxI3SCqIGylo1x4cyfQZE=
+    last_login: null
+    email: test5@test.com
+    created_at: 2025-06-19 03:48:00.437467+00:00
+    updated_at: 2025-06-19 03:48:00.437494+00:00
+- model: account.user
+  pk: 6
+  fields:
+    password: pbkdf2_sha256$1000000$YvMOkDcDeNfKTcxouDzEte$GCpMo3iXGh4cbMcEl6gfRIUlqnhNTNhEqTSpBNAfx+0=
+    last_login: null
+    email: test6@test.com
+    created_at: 2025-06-19 03:51:21.280569+00:00
+    updated_at: 2025-06-19 03:51:21.280595+00:00
