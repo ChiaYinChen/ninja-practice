@@ -1,6 +1,8 @@
 from django.http import HttpRequest
 from ninja import Query, Router
 
+from core import exceptions as exc
+from core.errcode import CustomErrorCode
 from core.paginations import PaginationParams, get_paginated_response
 from core.responses import GenericResponse
 
@@ -27,5 +29,8 @@ def get_users(request: HttpRequest, paging: Query[PaginationParams]):
     summary="新增使用者",
 )
 def create_user(request: HttpRequest, payload: CreateUserRequest):
+    user_obj = User.objects.filter(email=payload.email).first()
+    if user_obj:
+        raise exc.ConflictError(CustomErrorCode.ENTITY_CONFLICT, "Email already registered")
     user = User.objects.create_user(**payload.model_dump(exclude={"confirm_password"}))
     return GenericResponse(data=user)
