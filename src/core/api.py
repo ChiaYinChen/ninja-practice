@@ -1,12 +1,15 @@
+import jwt
 from django.http import HttpRequest, HttpResponse
 from ninja import NinjaAPI
 from ninja.errors import ValidationError
 
+from .errcode import CustomErrorCode
 from .exceptions import APIValidationError, CustomError
 
 api = NinjaAPI()
 
 api.add_router(prefix="/users/", router="account.api.router", tags=["users"])
+api.add_router(prefix="/auth/", router="auth.api.router", tags=["auth"])
 
 
 @api.exception_handler(CustomError)
@@ -26,4 +29,20 @@ def validation_exception_handler(request: HttpRequest, exc: ValidationError) -> 
         request,
         data=APIValidationError.from_pydantic(exc).model_dump(exclude_none=True),
         status=400,
+    )
+
+
+@api.exception_handler(jwt.exceptions.PyJWTError)
+def jwt_exception_handler(request: HttpRequest, exc: jwt.exceptions.PyJWTError) -> HttpResponse:
+    """Handle exceptions related to JWT authentication errors."""
+    if isinstance(exc, jwt.exceptions.ExpiredSignatureError):
+        return api.create_response(
+            request,
+            data={"error_code": CustomErrorCode.TOKEN_EXPIRED, "message": "Token expired"},
+            status=401,
+        )
+    return api.create_response(
+        request,
+        data={"error_code": CustomErrorCode.INVALID_CREDENTIALS, "message": "Could not validate credentials"},
+        status=401,
     )
