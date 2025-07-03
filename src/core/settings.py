@@ -29,7 +29,7 @@ SECRET_KEY = settings.SECRET_KEY
 DEBUG = settings.DEBUG
 LOG_LEVEL = str(LogLevel.DEBUG) if DEBUG else str(settings.LOG_LEVEL)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
