@@ -6,6 +6,7 @@ from .managers import CustomUserManager
 
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True)
+    is_superuser = models.BooleanField(default=False, db_default=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 

@@ -1,6 +1,8 @@
 from django.http import HttpRequest
 from ninja import Query, Router
 
+from auth.permissions import IsSuperUser, permission_required
+from auth.token import AccessTokenBearer
 from core import exceptions as exc
 from core.errcode import CustomErrorCode
 from core.paginations import PaginationParams, get_paginated_response
@@ -16,7 +18,9 @@ router = Router()
     "",
     response=GenericResponse[list[UserOut]],
     summary="取得使用者清單",
+    auth=AccessTokenBearer(),
 )
+@permission_required([IsSuperUser])
 def get_users(request: HttpRequest, paging: Query[PaginationParams]):
     user_objs = User.objects.all()
     page_info, users = get_paginated_response(user_objs, paging_params=paging)
